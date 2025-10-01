@@ -210,10 +210,29 @@
             color: #FFF !important;
             border-bottom-color: #FFF;
         }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 120, 212, 0.4);
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="index.html" class="back-button">← Voltar</a>
+        
         <h1>Fluxo de Gestão de Casos</h1>
         <p class="subtitle">Aspometrom - Processo Completo</p>
 
@@ -439,3 +458,4 @@
     </script>
 </body>
 </html>
+
