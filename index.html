@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxos de Gestão de Casos - Precato</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .logo-section {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #0078D4;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #005A9E;
+            font-size: 1.2em;
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .flow-button {
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 120, 212, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .flow-button:hover::before {
+            left: 100%;
+        }
+
+        .flow-button:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 120, 212, 0.5);
+        }
+
+        .flow-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .flow-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .flow-description {
+            font-size: 0.95em;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .buttons-container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
+            .flow-button {
+                padding: 30px 20px;
+            }
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            color: #0078D4;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <h1>Fluxos de Gestão de Casos</h1>
+            <p class="subtitle">Selecione o fluxo de trabalho que deseja consultar</p>
+        </div>
+
+        <div class="info-box">
+            📋 Escolha o processo adequado conforme o tipo de broker
+        </div>
+
+        <div class="buttons-container">
+            <a href="fluxograma_aspometrom.html" class="flow-button">
+                <div class="flow-icon">🏢</div>
+                <div class="flow-title">Aspometrom</div>
+                <div class="flow-description">Processo específico para casos da Aspometrom com etapas detalhadas</div>
+            </a>
+
+            <a href="fluxograma_demais_brokers.html" class="flow-button">
+                <div class="flow-icon">👥</div>
+                <div class="flow-title">Demais Brokers</div>
+                <div class="flow-description">Processo padrão para os demais brokers parceiros</div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>Sistema de Gestão de Casos - Precato</p>
+            <p style="margin-top: 5px; font-size: 0.85em;">Versão 1.0 | 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Adicionar animação de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 0.8s ease';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
+        });
+
+        // Adicionar efeito de clique nos botões
+        const buttons = document.querySelectorAll('.flow-button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

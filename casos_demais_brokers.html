@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxo de Gestão de Casos - Demais Brokers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 120, 212, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0078D4;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #005A9E;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .step {
+            background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 120, 212, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.5);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .step-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            font-size: 1em;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .decision {
+            background: linear-gradient(135deg, #0096D6 0%, #0078D4 100%);
+            position: relative;
+        }
+
+        .decision::before {
+            content: "?";
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3em;
+            font-weight: bold;
+            opacity: 0.2;
+        }
+
+        .branch {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-left: 40px;
+        }
+
+        .branch-yes {
+            background: linear-gradient(135deg, #00B294 0%, #008575 100%);
+        }
+
+        .branch-no {
+            background: linear-gradient(135deg, #D13438 0%, #A4262C 100%);
+        }
+
+        .connector {
+            text-align: center;
+            color: #0078D4;
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #0096D6 0%, #0078D4 100%);
+            border: 3px solid #FFD700;
+        }
+
+        .final {
+            background: linear-gradient(135deg, #003D5C 0%, #002B42 100%);
+        }
+
+        .link-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .link-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .branch {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+        }
+
+        .legend-text {
+            color: #0078D4;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Voltar</a>
+        
+        <h1>Fluxo de Gestão de Casos</h1>
+        <p class="subtitle">Demais Brokers - Processo Completo</p>
+
+        <div class="flowchart">
+            <!-- Início -->
+            <div class="step">
+                <div class="step-number">1. INÍCIO</div>
+                <div class="step-title">Broker envia caso fechado no WhatsApp</div>
+                <div class="step-description">O broker envia algum caso fechado no grupo com o tal no WhatsApp. Essa mensagem é o gatilho inicial do processo.</div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Pré-Análise -->
+            <div class="step">
+                <div class="step-number">2. PRÉ-ANÁLISE NO TEAMS</div>
+                <div class="step-title">Publicação no grupo "DEMANDAS - COMERCIAL X PRÉ-ANÁLISE"</div>
+                <div class="step-description">O caso é publicado no grupo "DEMANDAS - COMERCIAL X PRÉ-ANÁLISE" do Microsoft Teams.<br>Após análise, será usado um emoji (👍) pela equipe responsável pela pré-análise para confirmar.</div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Decisão -->
+            <div class="step decision">
+                <div class="step-number">3. APROVAÇÃO DA PRÉ-ANÁLISE</div>
+                <div class="step-title">Caso aprovado?</div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <div class="branch">
+                <div class="step branch-yes">
+                    <div class="step-number">✓ SIM</div>
+                    <div class="step-title">Seguir para criação da oportunidade</div>
+                </div>
+                <div class="step branch-no">
+                    <div class="step-number">✗ NÃO</div>
+                    <div class="step-title">Caso Sujo</div>
+                    <div class="step-description">Entender o motivo da reprovação.</div>
+                </div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Ticket de Primeira Passagem -->
+            <div class="step">
+                <div class="step-number">4. TICKET DE PRIMEIRA PASSAGEM</div>
+                <div class="step-title">Operador acessa o ticket</div>
+                <div class="step-description">
+                    • Navegar até a propriedade "Conexão Closer"<br>
+                    • Selecionar CONECTAR → gera automaticamente uma Oportunidade
+                </div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Gestão da Oportunidade -->
+            <div class="step highlight">
+                <div class="step-number">5. GESTÃO DA OPORTUNIDADE</div>
+                <div class="step-title">Movimentar até "Negócio Fechado"</div>
+                <div class="step-description">
+                    • Preencher as informações de contato enviadas pelo broker<br>
+                    • Calcular os valores na calculadora da Precato usando o ID do precatório
+                </div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Comunicação Final -->
+            <div class="step">
+                <div class="step-number">6. COMUNICAÇÃO FINAL</div>
+                <div class="step-title">Oportunidade em "Negócio Fechado"</div>
+                <div class="step-description">
+                    • Enviar mensagem para Vinicius no WhatsApp informando a conclusão<br>
+                    • Vinicius irá enviar mensagem no Work para registrar a passagem de bastão
+                </div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Tratativas Internas -->
+            <div class="step">
+                <div class="step-number">7. TRATATIVAS INTERNAS</div>
+                <div class="step-title">Time de CS (Customer Success)</div>
+                <div class="step-description">O caso é assumido pelo time de CS para tratativas internas.</div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Assinatura -->
+            <div class="step decision">
+                <div class="step-number">8. ASSINATURA</div>
+                <div class="step-title">Verificar na planilha se o caso será assinado no dia</div>
+                <div class="step-description">
+                    📊 Consultar Planilha de Assinatura<br>
+                    <a href="https://seginvestimentosprecato.sharepoint.com/:x:/s/CorporativoPrecato-Externo/EQ7dF1tgwl1OkdjyaB29Rq0BSmAg_eqCcUdahq1IsWJD2w?e=bKlfKd" target="_blank" class="link-button">🔗 Abrir Planilha de Assinatura</a>
+                </div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <div class="branch">
+                <div class="step branch-yes">
+                    <div class="step-number">✓ SIM - ASSINADO</div>
+                    <div class="step-title">Prosseguir com carta de comissão</div>
+                </div>
+                <div class="step branch-no">
+                    <div class="step-number">✗ NÃO ASSINADO</div>
+                    <div class="step-title">Aguardar assinatura</div>
+                </div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Carta de Comissão -->
+            <div class="step highlight">
+                <div class="step-number">9. CARTA DE COMISSÃO E NF</div>
+                <div class="step-title">Processo de comissionamento</div>
+                <div class="step-description">
+                    • Criar a carta de comissão (modelo disponível na pasta)<br>
+                    <a href="https://seginvestimentosprecato.sharepoint.com/sites/Corporativo_Precato/Documentos%20Compartilhados/Forms/AllItems.aspx?id=%2Fsites%2FCorporativo%5FPrecato%2FDocumentos%20Compartilhados%2FB2B%2FSERVI%C3%87O%2FCARTA%20DE%20COMISS%C3%83O&sortField=Modified&isAscending=false&viewid=20fcfd54%2D84c7%2D4df2%2Da1ef%2D2d7da734b391&ga=1" target="_blank" class="link-button">🔗 Acessar Modelos de Carta de Comissão</a><br><br>
+                    • Enviar no WhatsApp a carta de comissão para assinatura e solicitar a NF
+                </div>
+            </div>
+
+            <div class="connector">↓</div>
+
+            <!-- Final -->
+            <div class="step final">
+                <div class="step-number">10. FINALIZAÇÃO</div>
+                <div class="step-title">Envio no Grupo de Pagamento de Comissão</div>
+                <div class="step-description">Encaminhar a carta de comissão + NF no grupo de pagamento.</div>
+            </div>
+        </div>
+
+        <!-- Legenda -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background: linear-gradient(135deg, #0078D4 0%, #005A9E 100%);"></div>
+                <span class="legend-text">Etapa Padrão</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: linear-gradient(135deg, #0096D6 0%, #0078D4 100%);"></div>
+                <span class="legend-text">Decisão</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: linear-gradient(135deg, #0096D6 0%, #0078D4 100%); border: 3px solid #FFD700;"></div>
+                <span class="legend-text">Etapa Importante</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: linear-gradient(135deg, #003D5C 0%, #002B42 100%);"></div>
+                <span class="legend-text">Finalização</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Adicionar efeito de animação ao scroll
+        const steps = document.querySelectorAll('.step');
+        
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                }
+            });
+        }, observerOptions);
+
+        steps.forEach(step => {
+            observer.observe(step);
+        });
+
+        // Adicionar interatividade aos cliques
+        steps.forEach(step => {
+            step.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
